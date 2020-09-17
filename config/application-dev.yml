@@ -1,0 +1,7 @@
+application:
+  port: 8090
+  server: config-dev
+  
+leaf:
+  fisrt-name: XU
+  age: 18
