@@ -1,0 +1,146 @@
+server:
+  port: 10010
+  connection-timeout: 5000
+  context-path: /
+  tomcat:
+    max-threads: 100
+#swagger
+swagger:
+  enabled: true
+
+# MySQL连接池
+#192.168.137.106:3306/imos_platform_test
+spring:
+  freemarker:
+    checkTemplateLocation: false
+
+  datasource:
+    dbmysql:
+      jdbc-url: jdbc:mysql://192.168.137.101:3306/track-hand?allowMultiQueries=true&useSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+      type: com.zaxxer.hikari.HikariDataSource
+      username: bomdev
+      password: bomdev
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      connection-test-query: select 1 from dual
+    dboracle:
+      jdbc-url: jdbc:oracle:thin:@192.168.137.101:1521:orcl
+      type: com.zaxxer.hikari.HikariDataSource
+      username: bomdev
+      password: bomdev
+      driver-class-name: oracle.jdbc.OracleDriver
+      connection-test-query: select 1 from dual
+    dbrobot-1:
+      jdbc-url: jdbc:mysql://192.168.137.101:3306/robot_1?allowMultiQueries=true&useSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+      #jdbc-url: jdbc:mysql://192.168.0.57:3306/new_robot?allowMultiQueries=true&useSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+      #jdbc-url: jdbc:mysql://127.0.0.1:3306/robot_1?allowMultiQueries=true&useSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+      type: com.zaxxer.hikari.HikariDataSource
+      username: bomdev
+      password: bomdev
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      connection-test-query: select 1 from dual
+      connection-timeout: 10000
+    dbrobot-2:
+      jdbc-url: jdbc:mysql://192.168.137.101:3306/robot_2?allowMultiQueries=true&useSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+      type: com.zaxxer.hikari.HikariDataSource
+      username: bomdev
+      password: bomdev
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      connection-test-query: select 1 from dual
+      connection-timeout: 10000
+    dbrobot-3:
+      jdbc-url: jdbc:mysql://192.168.137.91:3306/robot_3?allowMultiQueries=true&useSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+      type: com.zaxxer.hikari.HikariDataSource
+      username: root
+      password: abc123
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      connection-test-query: select 1 from dual
+      connection-timeout: 10000
+  #    hikari:
+  #      connection-test-query:
+  # Mongo连接
+  data:
+    mongodb:
+      uri: mongodb://192.168.137.101:27017/bomdb
+
+
+  #  # Mongo连接池
+  #  data:
+  #    mongodb:
+  #      uri: mongodb://jbinfo:jbinfo2018@47.105.192.119:27017/admin
+
+  #header属性：传参位置，可以选择header或body传token,这里可以设置为header，body，both,
+  #header是只从header取ak验证，body就是只从body取ak验证，both就是优先取header的ak，如果没有就取body拿ak
+  #无论是header或者body，验证ak时都必须是post方法，且content_type是application/json
+  jwt:
+    enable: fasle
+    header: header
+    logformat:
+      prifix: "==== "
+      suffix: " ===="
+
+  # Redis缓存
+  redis:
+    database: 0
+    #host: 47.105.192.119
+    host: 192.168.137.101
+    #    host: 192.168.137.91
+    port: 6379
+    password: abc123
+    max-active: 8
+    max-wait: 100
+    max-idle: 8
+    min-idle: 0
+    timeout: 0
+    isRedisCache: 1
+    sentinel:
+      master: mymaster
+      nodes: 127.0.0.1:26979,127.0.0.1:26479,127.0.0.1:26579
+  cache:
+    type: simple
+# MyBatis路径
+mybatis:
+  check-config-location: true
+  config-location: classpath:mybatis/mybatis-config.xml
+  #  可以加载多个路径,中间用逗号隔开
+  mapper-locations: classpath:mybatis/mappers/**/*Mapper.xml
+  type-aliases-package: com.crrc.imos.model
+  pagination:
+    pageSqlRegular: .*query.*
+#    dialect: mysql
+
+mapper:
+  mappers:
+    - tk.mybatis.springboot.util.MyMapper
+  not-empty: false
+  identity: MYSQL
+
+uacc:
+  auth:
+    exclude: /error,/auth/login,/auth/pc/login,/auth/logout,/auth/getAuthKey,/uploadManager/getImage
+
+fileupload:
+  server: http://192.168.137.101:10009
+
+# MyBatis查询
+pagehelper:
+  #  helperDialect: mysql
+  auto-runtime-dialect: true
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+  auto-dialect:
+
+#与平台配置的ftp服务保持一致
+ftp:
+  hostname: 192.168.137.101
+  port: 8488
+  username: ftpuser2
+  password: Sfs12345678
+
+#device-code:
+#  robot: "010050"
+#  camera: "010040"
+#  sluice: "010060"
+schedule:
+  enable: false
+
